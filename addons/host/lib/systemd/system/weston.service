@@ -1,0 +1,26 @@
+[Unit]
+Conflicts=getty@tty1.service
+Description=Weston Wayland Compositor
+RequiresMountsFor=/run
+After=dbus.service multi-user.target
+
+[Service]
+Group=display
+Type=notify
+Environment="XDG_RUNTIME_DIR=/run/platform/display"
+Environment="XDG_RUNTIMESHARE_DIR=/run/platform/display/share"
+ExecStartPre=/bin/mkdir -p /run/platform/display/share
+ExecStartPre=+/usr/bin/chsmack -a User::App-Shared -t /run/platform/display/share
+TTYPath=/dev/tty1
+StandardInput=tty
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+UtmpIdentifier=tty1
+User=display
+EnvironmentFile=-/etc/default/weston
+ExecStart=/usr/bin/weston --idle-time=0  --tty=1 --socket=wayland-host-0  --log=/run/platform/display/weston.log
+
+[Install]
+WantedBy=multi-user.target
+

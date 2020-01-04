@@ -1,0 +1,16 @@
+[Unit]
+Description=AGL Container Demo Launcher
+Requires=weston.service lxc-net.service lxc-watchdog.service lxc-watchdog-system.service
+After=lxc-net.service
+
+[Service]
+Type=simple
+Environment="XDG_RUNTIME_DIR=/run/platform/display"
+Environment="WAYLAND_DISPLAY=wayland-host-0"
+Environment="XDG_RUNTIMESHARE_DIR=/run/platform/display/share"
+ExecPre=/usr/bin/watchdog.sh
+ExecStart=/usr/bin/runlxc
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,6 @@
+[Unit]
+Description=AGL Bomb (IVI) 
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/watchdog.sh
